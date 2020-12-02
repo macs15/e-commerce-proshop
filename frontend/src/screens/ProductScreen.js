@@ -40,7 +40,6 @@ const ProductScreen = ({ history, match }) => {
         <Message variant="danger">{error}</Message>
        :
         <Row>
-          {console.log(productDetails)}
           <Col md={6}>
             <Image src={product.image} alt={product.name} fluid />
           </Col>
