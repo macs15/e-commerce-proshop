@@ -1,41 +1,33 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Message from "../components/Message";
-import Loader from "../components/Loader";
-import { Link } from "react-router-dom";
-import { addToCart } from "../actions/cartActions";
-import {
-  Button,
-  Card,
-  Col,
-  Form,
-  Image,
-  ListGroup,
-  Row,
-} from "react-bootstrap";
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { Link } from "react-router-dom"
+import { Button, Card, Col, Form, Image, ListGroup, Row } from "react-bootstrap"
+import PropTypes from "prop-types"
+import Message from "../components/Message"
+import { addToCart, removeFromCart } from "../actions/cartActions"
 
 const CartScreen = ({ match, location, history }) => {
-  const productId = match.params.id;
+  const productId = match.params.id
 
-  const qty = location.search ? Number(location.search.split("=")[1]) : 1;
+  const qty = location.search ? Number(location.search.split("=")[1]) : 1
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const cart = useSelector((state) => state.cart);
-  const { cartItems } = cart;
+  const cart = useSelector(state => state.cart)
+  const { cartItems } = cart
 
   useEffect(() => {
     if (productId) {
-      dispatch(addToCart(productId, qty));
+      dispatch(addToCart(productId, qty))
     }
-  }, [productId, dispatch, qty]);
+  }, [productId, dispatch, qty])
 
-  const removeFromCartHandler = (id) => {
-    console.log("remove", id);
-  };
+  const removeFromCartHandler = id => {
+    dispatch(removeFromCart(id))
+  }
 
   const checkoutHandler = () => {
-      history.push('/login?redirect=shipping');
+    history.push("/login?redirect=shipping")
   }
 
   return (
@@ -48,7 +40,7 @@ const CartScreen = ({ match, location, history }) => {
           </Message>
         ) : (
           <ListGroup variant="flush">
-            {cartItems.map((item) => (
+            {cartItems.map(item => (
               <ListGroup.Item key={item.product}>
                 <Row>
                   <Col md={2}>
@@ -62,13 +54,13 @@ const CartScreen = ({ match, location, history }) => {
                     <Form.Control
                       as="select"
                       value={item.qty}
-                      onChange={(e) =>
+                      onChange={e =>
                         dispatch(
                           addToCart(item.product, Number(e.target.value))
                         )
                       }
                     >
-                      {[...Array(item.countInStock).keys()].map((x) => (
+                      {[...Array(item.countInStock).keys()].map(x => (
                         <option key={x + 1} value={x + 1}>
                           {x + 1}
                         </option>
@@ -105,15 +97,26 @@ const CartScreen = ({ match, location, history }) => {
                 .toFixed(2)}
             </ListGroup.Item>
             <ListGroup.Item>
-                <Button type="button" className="btn-block" disabled={cartItems.length === 0} onClick={checkoutHandler}>
-                    Proceed to checkout
-                </Button>
+              <Button
+                type="button"
+                className="btn-block"
+                disabled={cartItems.length === 0}
+                onClick={checkoutHandler}
+              >
+                Proceed to checkout
+              </Button>
             </ListGroup.Item>
           </ListGroup>
         </Card>
       </Col>
     </Row>
-  );
-};
+  )
+}
 
-export default CartScreen;
+CartScreen.propTypes = {
+  match: PropTypes.shape().isRequired,
+  history: PropTypes.shape().isRequired,
+  location: PropTypes.shape().isRequired
+}
+
+export default CartScreen
