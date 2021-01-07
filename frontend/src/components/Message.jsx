@@ -12,7 +12,7 @@ Message.defaultProps = {
 
 Message.propTypes = {
   variant: PropTypes.string,
-  children: PropTypes.string.isRequired
+  children: PropTypes.node.isRequired
 }
 
 export default Message
