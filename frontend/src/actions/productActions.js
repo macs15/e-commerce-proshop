@@ -1,4 +1,4 @@
-import axios from "axios"
+import { axiosClient } from "../config/axiosConfig"
 import {
   PRODUCT_DETAILS_FAIL,
   PRODUCT_DETAILS_REQUEST,
@@ -12,7 +12,7 @@ export const listProducts = () => async dispatch => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST })
 
-    const { data } = await axios.get("/api/products")
+    const { data } = await axiosClient.get("/api/products")
 
     dispatch({
       type: PRODUCT_LIST_SUCCESS,
@@ -33,7 +33,7 @@ export const listProductDetails = id => async dispatch => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST })
 
-    const { data } = await axios.get(`/api/products/${id}`)
+    const { data } = await axiosClient.get(`/api/products/${id}`)
 
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,

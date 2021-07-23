@@ -1,4 +1,4 @@
-import axios from "axios"
+import { axiosClient } from "../config/axiosConfig"
 import {
   ORDER_CREATE_FAIL,
   ORDER_CREATE_REQUEST,
@@ -31,7 +31,7 @@ export const createOrder = order => async (dispatch, getState) => {
         authorization: `Bearer ${userInfo.token}`
       }
     }
-    const { data } = await axios.post("/api/orders", order, config)
+    const { data } = await axiosClient.post("/api/orders", order, config)
 
     dispatch({
       type: ORDER_CREATE_SUCCESS,
@@ -63,7 +63,7 @@ export const getOrderDetails = id => async (dispatch, getState) => {
         authorization: `Bearer ${userInfo.token}`
       }
     }
-    const { data } = await axios.get(`/api/orders/${id}`, config)
+    const { data } = await axiosClient.get(`/api/orders/${id}`, config)
 
     dispatch({
       type: ORDER_DETAILS_SUCCESS,
@@ -99,7 +99,7 @@ export const payOrder = (orderId, paymentResult) => async (
         authorization: `Bearer ${userInfo.token}`
       }
     }
-    const { data } = await axios.put(
+    const { data } = await axiosClient.put(
       `/api/orders/${orderId}/pay`,
       paymentResult,
       config
@@ -135,7 +135,7 @@ export const listMyOrders = () => async (dispatch, getState) => {
         authorization: `Bearer ${userInfo.token}`
       }
     }
-    const { data } = await axios.get(`/api/orders/myorders`, config)
+    const { data } = await axiosClient.get(`/api/orders/myorders`, config)
 
     dispatch({
       type: ORDER_LIST_MY_SUCCESS,

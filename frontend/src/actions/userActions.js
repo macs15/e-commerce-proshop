@@ -1,4 +1,4 @@
-import axios from "axios"
+import { axiosClient } from "../config/axiosConfig"
 import { ORDER_LIST_MY_RESET } from "../constants/orderConstants"
 import {
   USER_DETAILS_FAIL,
@@ -28,7 +28,7 @@ export const login = (email, password) => async dispatch => {
         "Content-Type": "application/json"
       }
     }
-    const { data } = await axios.post(
+    const { data } = await axiosClient.post(
       "/api/users/login",
       { email, password },
       config
@@ -70,7 +70,7 @@ export const register = (name, email, password) => async dispatch => {
         "Content-Type": "application/json"
       }
     }
-    const { data } = await axios.post(
+    const { data } = await axiosClient.post(
       "/api/users",
       { name, email, password },
       config
@@ -114,7 +114,7 @@ export const getUserDetails = id => async (dispatch, getState) => {
         authorization: `Bearer ${userInfo.token}`
       }
     }
-    const { data } = await axios.get(`/api/users/${id}`, config)
+    const { data } = await axiosClient.get(`/api/users/${id}`, config)
 
     dispatch({
       type: USER_DETAILS_SUCCESS,
@@ -147,7 +147,7 @@ export const updateUserProfile = user => async (dispatch, getState) => {
         authorization: `Bearer ${userInfo.token}`
       }
     }
-    const { data } = await axios.put(`/api/users/profile`, user, config)
+    const { data } = await axiosClient.put(`/api/users/profile`, user, config)
 
     dispatch({
       type: USER_UPDATE_PROFILE_SUCCESS,
